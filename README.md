@@ -86,6 +86,13 @@ VALUE key3 0 7
 value3
 END
 ```
+3. Ожидание 5 секунд.
+4. Повторная проверка и результат:
+```
+END
+END
+END
+```
 ### Задание 4
 1. Установка Redis
 ![image](https://github.com/user-attachments/assets/0605e7de-ecde-46dc-bc1a-93371293cb2e)
