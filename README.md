@@ -53,18 +53,141 @@
 * `-p 11211`: устанавливает порт, на котором будет слушать Memcached.
 * `-l 127.0.0.1`: устанавливает IP-адрес, на котором будет слушать Memcached.
 ### Задание 3
-1. Запись ключей:
-![image](https://github.com/user-attachments/assets/221951d6-6130-440a-bdc2-2069db5e0d53)  
-2. Проверка записанных ключей:
-![image](https://github.com/user-attachments/assets/c60acb32-1465-4508-8aef-889656832913)  
-3. Ожидание 5 секунд
-4. Проверка удаления ключей:
-Результат выполнения команды `get`, чтобы показать, что ключи больше не существуют. Вывод должен выглядеть примерно так:
+1.Запись данных в Memcached
+`telnet localhost 11211`
 ```
+set key1 0 5 4
+test
+set key2 0 5 6
+value2
+set key3 0 5 7
+value3
+```
+* `set key1 0 5 4` означает:  
+key1 — имя ключа.  
+0 — флаг (можно оставить 0).  
+5 — TTL в секундах.  
+4 — длина значения.  
+test — значение.  
+2. Проверка наличия ключей
+```
+get key1
+get key2
+get key3
+```
+```
+VALUE key1 0 4
+test
 END
+VALUE key2 0 6
+value2
 END
+VALUE key3 0 7
+value3
 END
 ```
 ### Задание 4
+1. Установка Redis
+![image](https://github.com/user-attachments/assets/0605e7de-ecde-46dc-bc1a-93371293cb2e)
+2. Запуск Redis
+```
+sudo systemctl start redis-server
+sudo systemctl enable redis-server
+```
+3.Запись данных через redis-cli:
+`redis-cli`
+ввод ключей:
+```
+   SET "book:1:title" "1984"
+   SET "book:1:author" "George Orwell"
+   SET "book:1:year" "1949"
 
-### Задание 5*
+   SET "book:2:title" "To Kill a Mockingbird"
+   SET "book:2:author" "Harper Lee"
+   SET "book:2:year" "1960"
+
+   SET "book:3:title" "The Great Gatsby"
+   SET "book:3:author" "F. Scott Fitzgerald"
+   SET "book:3:year" "1925"
+```
+4. Извлечение данных:
+```
+   1) "book:1:title"
+   2) "book:1:author"
+   3) "book:1:year"
+   4) "book:2:title"
+   5) "book:2:author"
+   6) "book:2:year"
+   7) "book:3:title"
+   8) "book:3:author"
+   9) "book:3:year"
+```
+Извлечение информации:
+```
+   GET "book:1:title"
+   GET "book:1:author"
+   GET "book:1:year"
+
+   GET "book:2:title"
+   GET "book:2:author"
+   GET "book:2:year"
+
+   GET "book:3:title"
+   GET "book:3:author"
+   GET "book:3:year"
+```
+5. Вывод команд:
+```
+   127.0.0.1:6379> SET "book:1:title" "1984"
+   OK
+   127.0.0.1:6379> SET "book:1:author" "George Orwell"
+   OK
+   127.0.0.1:6379> SET "book:1:year" "1949"
+   OK
+
+   127.0.0.1:6379> SET "book:2:title" "To Kill a Mockingbird"
+   OK
+   127.0.0.1:6379> SET "book:2:author" "Harper Lee"
+   OK
+   127.0.0.1:6379> SET "book:2:year" "1960"
+   OK
+
+   127.0.0.1:6379> SET "book:3:title" "The Great Gatsby"
+   OK
+   127.0.0.1:6379> SET "book:3:author" "F. Scott Fitzgerald"
+   OK
+   127.0.0.1:6379> SET "book:3:year" "1925"
+   OK
+
+   127.0.0.1:6379> KEYS *
+   1) "book:1:title"
+   2) "book:1:author"
+   3) "book:1:year"
+   4) "book:2:title"
+   5) "book:2:author"
+   6) "book:2:year"
+   7) "book:3:title"
+   8) "book:3:author"
+   9) "book:3:year"
+
+   127.0.0.1:6379> GET "book:1:title"
+   "1984"
+   127.0.0.1:6379> GET "book:1:author"
+   "George Orwell"
+   127.0.0.1:6379> GET "book:1:year"
+   "1949"
+
+   127.0.0.1:6379> GET "book:2:title"
+   "To Kill a Mockingbird"
+   127.0.0.1:6379> GET "book:2:author"
+   "Harper Lee"
+   127.0.0.1:6379> GET "book:2:year"
+   "1960"
+
+   127.0.0.1:6379> GET "book:3:title"
+   "The Great Gatsby"
+   127.0.0.1:6379> GET "book:3:author"
+   "F. Scott Fitzgerald"
+   127.0.0.1:6379> GET "book:3:year"
+   "1925"
+```
